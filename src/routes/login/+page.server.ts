@@ -1,5 +1,5 @@
 import { message, superValidate } from 'sveltekit-superforms';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, redirect, type RequestEvent } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 import { loginSchema } from '$lib/validation';
 import prisma from '$lib/prisma';
@@ -13,7 +13,7 @@ export const load = async () => {
 };
 
 export const actions = {
-	default: async (event) => {
+	default: async (event: RequestEvent) => {
 		const form = await superValidate(event, zod(loginSchema));
 		// console.log(form);
 
