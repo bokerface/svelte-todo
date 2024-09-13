@@ -14,7 +14,7 @@
 
 	// let mbelek = false;
 
-	function fetchTodos() {
+	async function fetchTodos() {
 		// const { data } = await supabase.from('todos').select('*');
 		// return data;
 		// if (mbelek) {
@@ -22,6 +22,8 @@
 		// } else {
 		// 	return [];
 		// }
+		const { data: todosData } = await supabase.from('todos').select('*');
+		data.todos = todosData; // Update the data variable
 		console.log(data.todos);
 		// return data.todos;
 	}
