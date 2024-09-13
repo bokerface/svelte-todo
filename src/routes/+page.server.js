@@ -5,7 +5,7 @@ import prisma from '$lib/prisma.ts';
 import { supabase } from '$lib/supabaseClient.js';
 
 export const load = async (event) => {
-	if (!event.locals.user) redirect(302, '/login');
+	// if (!event.locals.user) redirect(302, '/login');
 
 	// const data = await prisma.todo.findMany();
 	const { data } = await supabase.from('todos').select('*');
