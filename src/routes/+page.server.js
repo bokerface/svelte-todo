@@ -28,7 +28,9 @@ export const actions = {
 			return fail(422, { message: 'description cannot be empty' });
 		}
 
-		const todos = await prisma.todo.findMany();
+		// const todos = await prisma.todo.findMany();
+
+		const todos = await supabase.from('todos').select('*');
 
 		// console.log(todos.find((todo) => todo.description === data.get('description')));
 
