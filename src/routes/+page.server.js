@@ -30,11 +30,8 @@ export const actions = {
 
 		// const todos = await prisma.todo.findMany();
 
-		const todos = await supabase.from('todos').select('*');
-
-		// console.log(todos.find((todo) => todo.description === data.get('description')));
-
-		if (todos.find((todo) => todo.description === data.get('description'))) {
+		const { data: existingTodos } = await supabase.from('todos').select('*').eq('description', data.get('description'));
+		if (existingTodos.length > 0) {
 			// throw new Error('todo already exists');
 			return fail(422, { message: 'todo already exists' });
 		}
