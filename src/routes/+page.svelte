@@ -11,21 +11,18 @@
 	import { enhance } from '$app/forms';
 	import { fly, slide } from 'svelte/transition';
 	import { supabase } from '$lib/supabaseClient.js';
+	import { onMount } from 'svelte';
 
-	// let mbelek = false;
+	let todos = [];
+
+	onMount(async () => {
+		await fetchTodos();
+	});
 
 	async function fetchTodos() {
-		// const { data } = await supabase.from('todos').select('*');
-		// return data;
-		// if (mbelek) {
-		// 	return data.todos;
-		// } else {
-		// 	return [];
-		// }
 		const { data: todosData } = await supabase.from('todos').select('*');
-		data.todos = todosData; // Update the data variable
-		console.log(data.todos);
-		// return data.todos;
+		todos = todosData; // Update the data variable
+		console.log(todos);
 	}
 
 	const handleInserts = async (payload) => {
@@ -67,6 +64,7 @@
 				return async ({ update }) => {
 					await update();
 					creating = false;
+					await fetchTodos();
 				};
 			}}
 		>
@@ -78,12 +76,12 @@
 				autocomplete="off"
 				class="max-w-xs"
 			/>
-			<Button type="submit">Add Todo</Button>
+			<Button disabled={creating} type="submit">Add Todo</Button>
 		</form>
 
 		<div class="mx-auto mb-3 w-full items-center">
 			<ul class="w-full">
-				{#each data.todos.filter((todo) => !deleting.includes(todo.id)) as todo}
+				{#each todos.filter((todo) => !deleting.includes(todo.id)) as todo}
 					<!-- {#each dadadodos as todo} -->
 					<li in:fly={{ y: 20 }} out:slide class="my-2 rounded bg-slate-500 p-2 text-lg text-white">
 						<form
