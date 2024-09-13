@@ -2,11 +2,15 @@
 import { fail, redirect } from '@sveltejs/kit';
 
 import prisma from '$lib/prisma.ts';
+import { supabase } from '$lib/supabaseClient.js';
 
 export const load = async (event) => {
 	if (!event.locals.user) redirect(302, '/login');
 
-	const data = await prisma.todo.findMany();
+	// const data = await prisma.todo.findMany();
+	const { data } = await supabase.from('todos').select('*');
+
+	console.log(data);
 
 	return {
 		todos: data
@@ -34,10 +38,13 @@ export const actions = {
 		}
 
 		try {
-			await prisma.todo.create({
-				data: {
-					description: data.get('description')
-				}
+			// await prisma.todo.create({
+			// 	data: {
+			// 		description: data.get('description')
+			// 	}
+			// });
+			await supabase.from('todos').insert({
+				description: data.get('description')
 			});
 		} catch (error) {
 			return fail(422, {
@@ -52,23 +59,29 @@ export const actions = {
 
 		const data = await request.formData();
 
-		await prisma.todo.delete({
-			where: {
-				id: JSON.parse(data.get('id'))
-			}
-		});
+		await supabase.from('todos').delete().eq('id', JSON.parse(data.get('id')));
+
+		// await prisma.todo.delete({
+		// 	where: {
+		// 		id: JSON.parse(data.get('id'))
+		// 	}
+		// });
 	},
 
 	update: async ({ request }) => {
 		const data = await request.formData();
 
-		await prisma.todo.update({
-			where: {
-				id: JSON.parse(data.get('id'))
-			},
-			data: {
-				done: JSON.parse(data.get('done'))
-			}
-		});
+		await supabase.from('todos').update({
+			done: JSON.parse(data.get('done'))
+		}).eq('id', JSON.parse(data.get('id')));
+
+		// await prisma.todo.update({
+		// 	where: {
+		// 		id: JSON.parse(data.get('id'))
+		// 	},
+		// 	data: {
+		// 		done: JSON.parse(data.get('done'))
+		// 	}
+		// });
 	}
 };

@@ -10,6 +10,31 @@
 	import 'iconify-icon';
 	import { enhance } from '$app/forms';
 	import { fly, slide } from 'svelte/transition';
+	import { supabase } from '$lib/supabaseClient.js';
+
+	// let mbelek = false;
+
+	function fetchTodos() {
+		// const { data } = await supabase.from('todos').select('*');
+		// return data;
+		// if (mbelek) {
+		// 	return data.todos;
+		// } else {
+		// 	return [];
+		// }
+		console.log(data.todos);
+		// return data.todos;
+	}
+
+	const handleInserts = async (payload) => {
+		console.log('Change received!', payload);
+		await fetchTodos(); // Make fetchTodos awaitable
+	};
+
+	supabase
+		.channel('todos')
+		.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'todos' }, handleInserts)
+		.subscribe();
 
 	let creating = false;
 	let deleting = [];
@@ -57,6 +82,7 @@
 		<div class="mx-auto mb-3 w-full items-center">
 			<ul class="w-full">
 				{#each data.todos.filter((todo) => !deleting.includes(todo.id)) as todo}
+					<!-- {#each dadadodos as todo} -->
 					<li in:fly={{ y: 20 }} out:slide class="my-2 rounded bg-slate-500 p-2 text-lg text-white">
 						<form
 							method="POST"

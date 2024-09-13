@@ -1,12 +1,8 @@
 <script lang="ts">
 	import '../app.css';
-	import { invalidate } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button/index.js';
 
 	export let data;
-
-	// invalidate((url) => url.pathname === '/login');
-	console.log(data?.session);
 </script>
 
 <main class="flex min-h-screen flex-col items-center bg-gray-100 text-gray-900">
