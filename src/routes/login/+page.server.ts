@@ -4,7 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { loginSchema } from '$lib/validation';
 import prisma from '$lib/prisma';
 import argon2 from 'argon2';
-import { lucia } from '$lib/server/auth.js';
+// import { lucia } from '$lib/server/auth.js';
 
 export const load = async () => {
 	const form = await superValidate(zod(loginSchema));
@@ -41,14 +41,14 @@ export const actions = {
 			});
 		}
 
-		const session = await lucia.createSession(user.id, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes
-		});
+		// const session = await lucia.createSession(user.id, {});
+		// const sessionCookie = lucia.createSessionCookie(session.id);
+		// event.cookies.set(sessionCookie.name, sessionCookie.value, {
+		// 	path: '.',
+		// 	...sessionCookie.attributes
+		// });
 
-		redirect(302, '/');
+		// redirect(302, '/');
 
 		// return { form };
 	}
