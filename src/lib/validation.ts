@@ -1,5 +1,5 @@
 import Zod, { z } from 'zod';
-import prisma from './prisma';
+// import prisma from './prisma';
 
 // Login Form Validation
 export const loginSchema = Zod.object({
@@ -25,22 +25,22 @@ export const registrationSchema = Zod.object({
 			});
 		}
 	})
-	.superRefine(async ({ email }, ctx) => {
-		if (await prisma.user.findUnique({ where: { email } })) {
-			ctx.addIssue({
-				code: 'custom',
-				message: 'Email already taken',
-				path: ['email']
-			});
-		}
-	})
-	.superRefine(async ({ username }, ctx) => {
-		if (await prisma.user.findUnique({ where: { username } })) {
-			ctx.addIssue({
-				code: 'custom',
-				message: 'Username already taken',
-				path: ['username']
-			});
-		}
-	});
+// .superRefine(async ({ email }, ctx) => {
+// 	if (await prisma.user.findUnique({ where: { email } })) {
+// 		ctx.addIssue({
+// 			code: 'custom',
+// 			message: 'Email already taken',
+// 			path: ['email']
+// 		});
+// 	}
+// })
+// .superRefine(async ({ username }, ctx) => {
+// 	if (await prisma.user.findUnique({ where: { username } })) {
+// 		ctx.addIssue({
+// 			code: 'custom',
+// 			message: 'Username already taken',
+// 			path: ['username']
+// 		});
+// 	}
+// });
 export type RegistrationSchema = typeof registrationSchema;
