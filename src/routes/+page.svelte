@@ -27,6 +27,7 @@
 
 	const handleInserts = async (payload) => {
 		console.log('Change received!', payload);
+		await new Promise((fulfil) => setTimeout(fulfil, 1000));
 		await fetchTodos(); // Make fetchTodos awaitable
 	};
 
