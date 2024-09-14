@@ -2,15 +2,8 @@ import { json, error } from '@sveltejs/kit';
 import { supabase } from '$lib/supabaseClient.js';
 
 export const GET = async () => {
-    try {
-        const { data, error: fetchError } = await supabase.from('todos').select('*');
-        if (fetchError) throw fetchError;
-
-        return json(data);
-    } catch (err) {
-        console.error(err);
-        throw error(500, 'Failed to fetch todos');
-    }
+    const { data } = await supabase.from('todos').select('*');
+    return json(data);
 };
 
 export const POST = async ({ request }) => {

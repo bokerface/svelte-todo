@@ -20,16 +20,18 @@
 	});
 
 	async function fetchTodos() {
-		const { data: todosData } = await supabase.from('todos').select('*');
-		todos = todosData; // Update the data variable
-		console.log(todos);
+		const response = await fetch('/api/todo');
+		const data = await response.json();
+		todos = data;
 	}
 
 	const handleInserts = async (payload) => {
-		console.log('Change received!', payload);
-		await new Promise((fulfil) => setTimeout(fulfil, 1000));
-		await fetchTodos(); // Make fetchTodos awaitable
+		await payload;
+		fetchTodos(); // Make fetchTodos awaitable
 	};
+
+	// console.log('Change received!', payload);
+	// await new Promise((fulfil) => setTimeout(fulfil, 1000));
 
 	supabase
 		.channel('todos')
