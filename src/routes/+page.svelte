@@ -67,7 +67,7 @@
 				return async ({ update }) => {
 					await update();
 					creating = false;
-					await fetchTodos();
+					fetchTodos();
 				};
 			}}
 		>
