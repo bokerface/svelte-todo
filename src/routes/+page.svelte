@@ -30,9 +30,6 @@
 		fetchTodos(); // Make fetchTodos awaitable
 	};
 
-	// console.log('Change received!', payload);
-	// await new Promise((fulfil) => setTimeout(fulfil, 1000));
-
 	supabase
 		.channel('todos')
 		.on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'todos' }, handleInserts)
