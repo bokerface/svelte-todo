@@ -2,7 +2,7 @@ import { message, superValidate } from 'sveltekit-superforms';
 import { fail, redirect, type RequestEvent } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 import { loginSchema } from '$lib/validation';
-import prisma from '$lib/prisma';
+// import prisma from '$lib/prisma';
 import argon2 from 'argon2';
 // import { lucia } from '$lib/server/auth.js';
 
@@ -23,23 +23,23 @@ export const actions = {
 			});
 		}
 
-		const user = await prisma.user.findFirst({
-			where: {
-				email: form.data.email
-			}
-		});
+		// const user = await prisma.user.findFirst({
+		// 	where: {
+		// 		email: form.data.email
+		// 	}
+		// });
 
-		// @ts-ignore
-		if (!user || !(await argon2.verify(user?.password_hash, form.data.password))) {
-			console.log(
-				message(form, 'Invalid email or password', {
-					status: 400
-				})
-			);
-			return message(form, 'Invalid email or password', {
-				status: 400
-			});
-		}
+		// // @ts-ignore
+		// if (!user || !(await argon2.verify(user?.password_hash, form.data.password))) {
+		// 	console.log(
+		// 		message(form, 'Invalid email or password', {
+		// 			status: 400
+		// 		})
+		// 	);
+		// 	return message(form, 'Invalid email or password', {
+		// 		status: 400
+		// 	});
+		// }
 
 		// const session = await lucia.createSession(user.id, {});
 		// const sessionCookie = lucia.createSessionCookie(session.id);
