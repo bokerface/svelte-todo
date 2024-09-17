@@ -1,12 +1,17 @@
 import { channel } from "$lib/server/channel";
 import { json } from "@sveltejs/kit";
 
-export const GET = async () => {
+export const POST = async (event) => {
+    const messageData = await event.request.json();
     const message = channel.send({
         type: 'broadcast',
         event: 'test',
-        payload: { message: 'hello, world' },
+        payload: { messageData },
     })
 
-    return json({ message: "message sent" });
+    // console.log(message);
+
+    // const formData = await request.formData();
+
+    return json(message);
 };
